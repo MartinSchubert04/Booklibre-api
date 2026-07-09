@@ -1,0 +1,76 @@
+type Query {
+    adminDashboard: Dashboard
+    leaderboard: Leaderboard
+    conversionRate: [ConversionRow]
+    catalogHealth: CatalogHealth
+    activityFeed: [ActivityFeedItem]
+    averageRatingByBookType: [BookTypeAverageRating!]!
+}
+
+interface ActivityFeedItem {
+    id: String
+    fecha: String
+    tipoEvento: String
+    titulo: String
+    usuario: String
+}
+
+type NewBookEvent implements ActivityFeedItem {
+    id: String
+    fecha: String
+    tipoEvento: String
+    titulo: String
+    usuario: String
+}
+
+type ConfirmedReservationEvent implements ActivityFeedItem {
+    id: String
+    fecha: String
+    tipoEvento: String
+    titulo: String
+    usuario: String
+}
+
+type Dashboard {
+    popularBooks: [Book]
+    totalUsers: Int
+    totalReservations: Int
+    averageRatingByBookType: [BookTypeAverageRating!]!
+}
+
+type Book {
+    id: String
+    title: String
+    author: String
+    clicks: Int
+}
+
+type BookTypeAverageRating {
+    type: String!
+    averageRating: Float!
+}
+
+type Leaderboard {
+    rows: [LeaderboardRow]
+}
+
+type LeaderboardRow {
+    user: String
+    bibliokarmas: Int
+}
+
+type ConversionRow {
+    bookId: String
+    title: String
+    clicks: Int
+    reservas: Int
+    tasaConversion: Float
+}
+
+type CatalogHealth {
+    total: Int
+    prestados: Int
+    disponiblesNuncaReservados: Int
+    disponiblesReservadosAFuturo: Int
+    disponiblesDevueltos: Int
+}

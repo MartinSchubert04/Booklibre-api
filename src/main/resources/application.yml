@@ -1,0 +1,59 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  flyway:
+    enabled: true #implemetacion flyway
+    create-schemas: true
+    out-of-order: true
+    default-schema: public
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_NAME:postgres}
+    username: ${POSTGRES_USER:admin}
+    password: ${POSTGRES_PASSWORD:admin}
+    driver-class-name: org.postgresql.Driver
+
+
+  jpa:
+    open-in-view: false
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    #ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: false
+        default_batch_fetch_size: 50
+      #  dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # mongodb config
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://${MONGO_USER:admin}:${MONGO_PASSWORD:admin}@${MONGO_HOST:localhost}:${MONGO_PORT:27017}/${MONGO_DB:books}?authSource=admin}
+
+    # redis config
+    redis:
+      url: ${REDIS_URL:redis://${REDIS_HOST:localhost}:${REDIS_PORT:6379}}
+      timeout: 2000ms
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 300000  # 5 min en ms
+
+jwt:
+  secret: ${JWT_SECRET:default-secret-for-local-and-tests-change-in-prod}
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    org.springframework.data.mongodb: WARN
+    org.mongodb.driver: WARN
+
+dgs:
+  graphql:
+    graphiql:
+      enabled: true
